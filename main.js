@@ -17,5 +17,45 @@ function bufferToWallet(base64) {
     var MAP = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
     var int8array = Base64ToUint8Array(base64)
     var encoded = to_b58(int8array,MAP)
+    // add kryo prefix
+    encoded = "kryo:" + encoded
     return encoded
 }
+
+async function fetchContent(url) {
+    return new Promise((resolve, reject) => {
+        fetch(url)
+        .then(response => response.text())
+        .then(text => resolve(text))
+        .catch((error) => {
+            console.error(error)
+            resolve("[]") // Professional errorhandling
+        });
+    })
+}
+
+async function getRichlist(url) {
+    let rawString = await fetchContent(url)
+    let wallets = JSON.parse(rawString)
+    wallets.forEach(wallet => {
+        wallet.address = bufferToWallet(wallet.address.buffer)
+    });
+    return wallets
+}
+
+async function renderRichList(url) {
+    const table = document.querySelector("#table > tbody")
+    table.innerHTML = `<tr><th>ID</th><th>ADDRESS</th><th>BALANCE</th><th>PENDING</th></tr>`;
+    let wallets = await getRichlist(url)
+    wallets.forEach(wallet => {
+        table.innerHTML += `<tr>
+        <th>${wallet.id}</th
+        ><th>${wallet.address}</th>
+        <th>${wallet.balance}</th>
+        <th>${wallet.pending}</th>
+        </tr>`
+    });
+}
+
+let url = "https://testnet-1.kryolite.io/richlist" // Hardcoded for now :(
+renderRichList(url)
