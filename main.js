@@ -37,9 +37,6 @@ async function fetchContent(url) {
 async function getRichlist(url) {
     let rawString = await fetchContent(url)
     let wallets = JSON.parse(rawString)
-    wallets.forEach(wallet => {
-        wallet.address = bufferToWallet(wallet.address.buffer)
-    });
     return wallets
 }
 
