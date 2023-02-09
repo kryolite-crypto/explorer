@@ -1,15 +1,64 @@
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@500&display=swap');
+* {
+    color:aliceblue;
 }
 
-td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
+body {
+    background-color: black;
 }
 
-tr:nth-child(1) {
-  background-color: yellowgreen;
+#flexyflex {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#flexyflex * {
+    justify-self: center;
+    margin: 0.5em;
+    font-size: 3em;
+    font-family: 'Kanit', sans-serif;
+    transition: 1s;
+    user-select: none;
+    text-decoration: none;
+}
+
+
+#flexyflex h1 {
+    font-size: 6em;
+}
+
+#flexyflex a:hover {
+    color: blue;
+    transform: scale(110%);
+}
+
+
+.documentation {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.documentation * {
+    margin: 0.5em;
+    font-family: 'Kanit', sans-serif;
+    transition: 1s; 
+}
+.documentation h1 {
+    font-size: 2em;
+}
+.documentation h2 {
+    font-size: 2em;
+    margin-top: 2em;
+}
+.documentation p {
+    font-size: 1em;
 }

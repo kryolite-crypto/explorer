@@ -28,8 +28,7 @@ async function fetchContent(url) {
         .then(response => response.text())
         .then(text => resolve(text))
         .catch((error) => {
-            console.error(error)
-            resolve("[]") // Professional errorhandling
+            reject(error)
         });
     })
 }
@@ -40,19 +39,7 @@ async function getRichlist(url) {
     return wallets
 }
 
-async function renderRichList(url) {
-    const table = document.querySelector("#table > tbody")
-    table.innerHTML = `<tr><th>ID</th><th>ADDRESS</th><th>BALANCE</th><th>PENDING</th></tr>`;
-    let wallets = await getRichlist(url)
-    wallets.forEach(wallet => {
-        table.innerHTML += `<tr>
-        <th>${wallet.id}</th
-        ><th>${wallet.address}</th>
-        <th>${wallet.balance}</th>
-        <th>${wallet.pending}</th>
-        </tr>`
-    });
-}
-
-let url = "https://testnet-1.kryolite.io/richlist" // Hardcoded for now :(
-renderRichList(url)
+let urls = [
+    "https://testnet-1.kryolite.io",
+    "https://testnet-2.kryolite.io"
+]
