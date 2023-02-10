@@ -14,11 +14,12 @@ function Base64ToUint8Array(base64) {
 }
 
 function bufferToWallet(base64) {
+    return "kryo:" + bufferToString(base64)
+}
+function bufferToString(base64) {
     var MAP = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
     var int8array = Base64ToUint8Array(base64)
     var encoded = to_b58(int8array,MAP)
-    // add kryo prefix
-    encoded = "kryo:" + encoded
     return encoded
 }
 
