@@ -6,13 +6,12 @@ async function getRichlist() {
 
 async function renderRichList() {
     const table = document.querySelector("#table > tbody")
-    table.innerHTML = `<tr><th>ID</th><th>ADDRESS</th><th>BALANCE</th><th>PENDING</th></tr>`;
+    table.innerHTML = `<tr><th>ADDRESS</th><th>BALANCE</th><th>PENDING</th></tr>`;
     let wallets = await getRichlist()
     .then(wallets => {
         wallets.forEach(wallet => {
             table.innerHTML += `<tr>
-            <th>${wallet.id}</th
-            ><th><a href = "../wallet?wallet=${wallet.address}">${wallet.address}</a></th>
+            <th><a href = "../wallet?wallet=${wallet.address}">${wallet.address}</a></th>
             <th>${wallet.balance}</th>
             <th>${wallet.pending}</th>
             </tr>`
