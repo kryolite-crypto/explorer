@@ -22,21 +22,30 @@ function bufferToWallet(base64) {
     return encoded
 }
 
-async function fetchContent(url) {
+async function delay(ms) {
     return new Promise((resolve, reject) => {
-        fetch(url)
-        .then(response => response.text())
-        .then(text => resolve(text))
-        .catch((error) => {
-            reject(error)
-        });
+        setTimeout(() => {
+            resolve(true)
+        }, ms);
     })
 }
 
-async function getRichlist(url) {
-    let rawString = await fetchContent(url)
-    let wallets = JSON.parse(rawString)
-    return wallets
+async function fetchContent(path) {
+    return new Promise(async (resolve, reject) => {
+        for (let i = 0; i < urls.length; i++) {
+            const url = urls[i] + path;
+            try {
+                await fetch(url)
+                .then(response => response.text())
+                .then(text => resolve(text))
+            } catch {
+                console.error(`Failed to fetch from ${url}`)
+                if (i === urls.length-1) reject("None of the URL's gave a response")
+                continue;
+            }
+            break;
+        }
+    })
 }
 
 let urls = [
