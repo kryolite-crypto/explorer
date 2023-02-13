@@ -1,20 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src = "main.js"></script>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="global_style.css">
-    <title>Kryolite explorer</title>
-</head>
-<body>
-    <div id = "flexyflex">
-        <h1>Kryolite explorer</h1>
-        <a href = "richlist">Richlist</a>
-        <a href = "wallet">Wallet info</a>
-        <a href = "wallet/transactions">Transaction history info</a>
-    </div>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src = "main.js"></script>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="global_style.css">
+        <title>Kryolite explorer</title>
+
+        <link rel="stylesheet" href="./latestblocks/blocks_style.css">
+        <script defer src = "./latestblocks/blocks.js"></script>
+    </head>
+    <body>
+        <nav>
+            <ul class="nav-list">
+            <li class="nav-item">
+                <a>Kryolite</a>
+            </li>
+            <li class="nav-item">
+            <a href="richlist">Richlist</a>
+            <a href="wallet">Wallet</a>
+            </li>
+            </ul>
+        </nav>
+        <center><h1>Newest blocks</h1></center>
+        <div id = "blocks">
+            <h1 id = "loading_indicator"></h1>
+        </div>
+    </body>
 </html>

@@ -49,6 +49,14 @@ async function fetchContent(path) {
     })
 }
 
+function UnixToDateStr(unix_timestamp) {
+    let date = new Date(unix_timestamp * 1000)
+    let dateStr = date.toLocaleString().split(" ")
+
+    dateStr[1] = dateStr[1].replaceAll(".",":")
+    return `${dateStr[0]} ${dateStr[1]}`
+}
+
 let urls = [
     "https://testnet-1.kryolite.io",
     "https://testnet-2.kryolite.io"

@@ -1,55 +1,38 @@
-#flexyflex {
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Montserrat, sans-serif;
+    background: var(--clr-gray100);
+}
+
+.nav-list {
+    background: #212121;
+    padding: 0.5rem 0;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
 }
 
-#flexyflex * {
-    justify-self: center;
-    margin: 0.5em;
-    font-size: 3em;
-    font-family: var(--font);
-    transition: 1s;
-    user-select: none;
+.nav-item {
+    list-style: none;
+    margin-right: 2rem;
+}
+
+.nav-item a {
+    font-size: 2em;
     text-decoration: none;
+    transition: 250ms ease-in-out;
+    margin-left: 2rem;
 }
 
-
-#flexyflex h1 {
-    font-size: 6em;
+.nav-item a:hover {
+    color:blue;
 }
 
-#flexyflex a:hover {
-    color: blue;
-    transform: scale(110%);
-}
-
-
-.documentation {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.documentation * {
-    margin: 0.5em;
-    font-family: var(--font);
-    transition: 1s; 
-}
-.documentation h1 {
-    font-size: 2em;
-}
-.documentation h2 {
-    font-size: 2em;
-    margin-top: 2em;
-}
-.documentation p {
-    font-size: 1em;
+.nav-item:first-child {
+    margin:0px
 }
