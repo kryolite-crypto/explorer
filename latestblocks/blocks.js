@@ -76,7 +76,7 @@ async function figureOutLatestBlock() {
 }
 
 async function renderBlocks() {
-    let latestBlock = await figureOutLatestBlock();
+    let latestBlock = await figureOutLatestBlock(); // Thanks Kryolite API For being easy to work with :>
     blockdiv.innerHTML = "";
     let i = latestBlock;
     let loops = 0;
