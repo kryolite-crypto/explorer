@@ -36,7 +36,7 @@ async function renderWalletTransactions() {
                 bufferToWallet(transaction.to.buffer),
                 bufferToString(transaction.hash.buffer)
             )
-            if (i >= 100) {
+            if (i >= 10000) {
                 break;
             }
         }
@@ -57,18 +57,19 @@ function showOrHide(id) {
 }
 
 function createNode(id,type,value,nonce,from,to,hash) {
-    let body = `
-    <div class = "transaction" id = "{id}">
-    <h1 onClick='showOrHide("{id}")'>ID: {id}</h1>
-    <div class = "hideable">
-        <p>Type: {type}</p>
-        <p>Value: {value}</p>
-        <p>Nonce: {nonce}</p>
-        <p>From: <a href="../?wallet={from}">{from}</a></p>
-        <p>To: <a href="../?wallet={to}">{to}</a></p>
-        <p>Hash: <a href="../../transaction?transaction={hash}">{hash}</a></p>
+    const transaction = document.createElement("div");
+    transaction.id = id;
+    transaction.classList.add("transaction")
+    transaction.innerHTML = `
+        <h1 onClick='showOrHide("{id}")'>ID: {id}</h1>
+        <div class = "hideable">
+            <p>Type: {type}</p>
+            <p>Value: {value}</p>
+            <p>Nonce: {nonce}</p>
+            <p>From: <a href="../?wallet={from}">{from}</a></p>
+            <p>To: <a href="../?wallet={to}">{to}</a></p>
+            <p>Hash: <a href="../../transaction?transaction={hash}">{hash}</a></p>
         </div>
-    </div>
     `
     .replaceAll("{id}",id)
     .replaceAll("{type}",type)
@@ -77,7 +78,7 @@ function createNode(id,type,value,nonce,from,to,hash) {
     .replaceAll("{from}",from)
     .replaceAll("{to}",to)
     .replaceAll("{hash}",hash);
-    document.querySelector("#main").innerHTML += body
+    main.appendChild(transaction)
 }
 
 

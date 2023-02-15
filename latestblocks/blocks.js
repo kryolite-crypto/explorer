@@ -26,7 +26,6 @@ function addBlock_inner(id,height,timestamp_date,transactions) {
 }
 
 function addBlock(bData) {
-    console.log(bData)
     let id = bData.id
     let height = bData.height
     let timestamp_date = UnixToDateStr(bData.timestamp)
@@ -89,17 +88,29 @@ async function figureOutLatestBlock() {
     }
 }
 
-async function renderBlocks() {
+async function initialRenderBlocks() {
     let latestBlock = await figureOutLatestBlock(); // Thanks Kryolite API For being easy to work with :>
     blocks.innerHTML = "";
-    let i = latestBlock;
-    let loops = 0;
-    while (loops < MAX_RENDER_BLOCKS && i > 0) {
+    renderBlocks(latestBlock,latestBlock-20)
+}
+async function renderBlocks(max,min) {
+    RENDERING = true
+    let i = max;
+    while (i >= min && i > 0) {
         addBlock(await getBlock(i))
         i--;
-        loops++;
+        BLOCK_INDEX = i;
     }
+    RENDERING = false;
 }
 
-const MAX_RENDER_BLOCKS = 25;
-renderBlocks()
+window.onscroll = function() {
+    if ((window.innerHeight + Math.ceil(window.pageYOffset)) >= document.body.offsetHeight) {
+        if (!RENDERING) {
+            renderBlocks(BLOCK_INDEX,BLOCK_INDEX-5)
+        }
+    }
+}
+let BLOCK_INDEX = 0;
+let RENDERING = true;
+initialRenderBlocks()
