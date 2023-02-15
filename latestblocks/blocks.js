@@ -101,5 +101,5 @@ async function renderBlocks() {
     }
 }
 
-const MAX_RENDER_BLOCKS = 100;
+const MAX_RENDER_BLOCKS = 25;
 renderBlocks()

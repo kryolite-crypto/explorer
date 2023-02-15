@@ -37,7 +37,6 @@ async function renderWalletTransactions() {
                 bufferToString(transaction.hash.buffer)
             )
             if (i >= 100) {
-                alert("Sorry, only 100 transactions were loaded for now")
                 break;
             }
         }
