@@ -6,7 +6,7 @@ async function getTransaction() {
     return new Promise(async (resolve, reject) => {
         let transaction = params.transaction
         if (transaction === null || transaction.length < 1) {
-            transaction = prompt("transaction address?")
+            transaction = prompt("Transaction hash?")
         }
         resolve(transaction)
     })
