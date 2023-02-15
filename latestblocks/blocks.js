@@ -1,24 +1,37 @@
-function addBlock_inner(id,height,timestamp_date,transaction_count) {
-    const blockString = `
+function addBlock_inner(id,height,timestamp_date,transactions) {
+    let blockString = `
         <div class = "block">
             <p>Height: {height}</p>
             <p>Time: {timestamp_date}</p>
-            <p>Transactions: {transaction_count}</p>
+            {transaction_placeholder}
         </div>
     `
     .replace("{id}",id)
     .replace("{height}",height)
     .replace("{timestamp_date}",timestamp_date)
-    .replace("{transaction_count}",transaction_count)
+    if (transactions.length === 1) {
+        blockString = blockString
+        .replaceAll(
+            "{transaction_placeholder}",
+            `<p>Transactions: ${transactions.length} <a href="./transaction?transaction=${bufferToString(transactions[0].hash.buffer)}">(Click to view)<a></p>`
+        )
+    } else {
+        blockString = blockString
+        .replaceAll(
+            "{transaction_placeholder}",
+            `<p>Transactions: ${transactions.length}<a></p>`
+        )
+    }
     blocks.innerHTML += blockString
 }
 
 function addBlock(bData) {
+    console.log(bData)
     let id = bData.id
     let height = bData.height
     let timestamp_date = UnixToDateStr(bData.timestamp)
-    let transaction_count = bData.pow.transactions.length
-    addBlock_inner(id,height,timestamp_date,transaction_count)
+    let transactions = bData.pow.transactions
+    addBlock_inner(id,height,timestamp_date,transactions)
 }
 
 async function getBlock(height) {

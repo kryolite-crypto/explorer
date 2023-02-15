@@ -1,12 +1,6 @@
 const params = new Proxy(new URLSearchParams(window.location.search), {
     get: (searchParams, prop) => searchParams.get(prop),
 });
-const wallet_div = document.querySelector("#wallet")
-const address_text = wallet_div.querySelector("#wallet_address")
-const id_text = wallet_div.querySelector("#wallet_id")
-const balance_text = wallet_div.querySelector("#wallet_balance")
-const pending_text = wallet_div.querySelector("#wallet_pending")
-
 
 async function getWallet() {
     return new Promise(async (resolve, reject) => {
@@ -19,16 +13,15 @@ async function getWallet() {
 }
 
 async function renderWallet() {
-    let wallet = await getWallet()
-    await fetchContent(`/ledger/${wallet}`)
+    let wallet_id = await getWallet()
+    await fetchContent(`/ledger/${wallet_id}`)
     .then(walletData => {
         try {
             walletData = JSON.parse(walletData)
-            address_text.innerHTML += bufferToWallet(walletData.address.buffer)
-            id_text.innerHTML += walletData.id
-            balance_text.innerHTML += walletData.balance
-            pending_text.innerHTML += walletData.pending
-            wallet_div.innerHTML += `<a href="./transactions?wallet=${wallet}">View transaction history</a>`
+            wallet_address.innerHTML += bufferToWallet(walletData.address.buffer)
+            wallet_balance.innerHTML += walletData.balance
+            wallet_pending.innerHTML += walletData.pending
+            wallet.innerHTML += `<a href="./transactions?wallet=${wallet_id}">View transaction history</a>`
         } catch {
             alert("Invalid address")
             window.history.back()

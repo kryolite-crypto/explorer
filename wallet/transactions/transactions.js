@@ -36,8 +36,8 @@ async function renderWalletTransactions() {
                 bufferToWallet(transaction.to.buffer),
                 bufferToString(transaction.hash.buffer)
             )
-            if (i >= 1000) {
-                alert("Currently you can only load up to a thousand transactions, this will be changed in a future update :)")
+            if (i >= 100) {
+                alert("Sorry, only 100 transactions were loaded for now")
                 break;
             }
         }
@@ -65,9 +65,9 @@ function createNode(id,type,value,nonce,from,to,hash) {
         <p>Type: {type}</p>
         <p>Value: {value}</p>
         <p>Nonce: {nonce}</p>
-        <p>From: {from}</p>
-        <p>To: {to}</p>
-        <p>Hash: {hash}</p>
+        <p>From: <a href="../?wallet={from}">{from}</a></p>
+        <p>To: <a href="../?wallet={to}">{to}</a></p>
+        <p>Hash: <a href="../../transaction?transaction={hash}">{hash}</a></p>
         </div>
     </div>
     `
