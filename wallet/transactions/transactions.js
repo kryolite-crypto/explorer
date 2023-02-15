@@ -26,7 +26,7 @@ async function renderWalletTransactions() {
         }
         for (let i = 0; i < transactions.length; i++) {
             const transaction = transactions[i];
-            if (i % 100 === 0) {await delay(1)}
+            if (i % 25 === 0) {await delay(1)}
             createNode(
                 transaction.id,
                 transaction.transactionType,
@@ -36,9 +36,6 @@ async function renderWalletTransactions() {
                 bufferToWallet(transaction.to.buffer),
                 bufferToString(transaction.hash.buffer)
             )
-            if (i >= 10000) {
-                break;
-            }
         }
     })
     .catch(error => {console.error(error)})
