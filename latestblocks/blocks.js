@@ -1,22 +1,16 @@
-const blockdiv = document.querySelector("#blocks")
-const loading_indicator = document.querySelector("#loading_indicator")
-
 function addBlock_inner(id,height,timestamp_date,transaction_count) {
     const blockString = `
         <div class = "block">
-            <h3>{id}</h3>
-            <div class = "block_info">
-                <p>Height: {height}</p>
-                <p>Time: {timestamp_date}</p>
-                <p>Transactions: {transaction_count}</p>
-            </div>
+            <p>Height: {height}</p>
+            <p>Time: {timestamp_date}</p>
+            <p>Transactions: {transaction_count}</p>
         </div>
     `
     .replace("{id}",id)
     .replace("{height}",height)
     .replace("{timestamp_date}",timestamp_date)
     .replace("{transaction_count}",transaction_count)
-    blockdiv.innerHTML += blockString
+    blocks.innerHTML += blockString
 }
 
 function addBlock(bData) {
@@ -39,9 +33,9 @@ async function getBlock(height) {
 
 async function BSearchBlock(start,end) {
     return new Promise(async (resolve, reject) => {
-        loading_indicator.innerHTML = `Search range: ${end-start}`
         let attempt = Math.floor((start + end)/2)
         let success = false
+        console.log("Narrowed the latest block down to a range of",end-start)
         try {
             await getBlock(attempt)
             success = true
@@ -57,30 +51,37 @@ async function BSearchBlock(start,end) {
     })
 }
 async function figureOutLatestBlock() {
-    let block = 0
-    let attempt = 1
-    let finished = false
-    while (!finished) {
-        loading_indicator.innerHTML = `Highest found Block: ${block}`
-        try {
-            await getBlock(attempt)
-            block = attempt
-            attempt *= 2;
-        } catch {
-            finished = true
+    try {
+        let latestBlockRaw = await fetchContent("/block/latest");
+        let latestBlock = JSON.parse(latestBlockRaw);
+        return latestBlock.height;
+    } catch {
+        console.error("API does not yet support /block/latest, using old version")
+        let block = 0
+        let attempt = 1
+        let finished = false
+        while (!finished) {
+            try {
+                await getBlock(attempt)
+                block = attempt
+                attempt *= 2;
+                console.log("Highest verified block:",block)
+            } catch {
+                finished = true
+            }
         }
+        const latestBlock = await BSearchBlock(block,attempt)
+        console.log("Latest block is",latestBlock)
+        return latestBlock
     }
-    const latestBlock = await BSearchBlock(block,attempt)
-    console.log("Latest block is",latestBlock)
-    return latestBlock
 }
 
 async function renderBlocks() {
     let latestBlock = await figureOutLatestBlock(); // Thanks Kryolite API For being easy to work with :>
-    blockdiv.innerHTML = "";
+    blocks.innerHTML = "";
     let i = latestBlock;
     let loops = 0;
-    while (loops < MAX_RENDER_BLOCKS || i < 1) {
+    while (loops < MAX_RENDER_BLOCKS && i > 0) {
         addBlock(await getBlock(i))
         i--;
         loops++;

@@ -20,13 +20,6 @@
     background-color: #212121;
     border: solid 1px white;
     display: flex;
-    flex-direction: column;
-    align-content: space-between;
-}
-#blocks .block .block_info{
-    height: auto;
-    width: 100%;
-    display: flex;
     flex-direction: row;
     align-content: space-between;
 }

@@ -59,5 +59,6 @@ function UnixToDateStr(unix_timestamp) {
 
 let urls = [
     "https://testnet-1.kryolite.io",
-    "https://testnet-2.kryolite.io"
+    "https://testnet-2.kryolite.io",
+    "https://testnet-3.kryolite.io"
 ]
