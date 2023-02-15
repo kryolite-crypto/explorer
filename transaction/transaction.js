@@ -27,7 +27,8 @@ async function renderTransaction() {
         .replaceAll("{hash}",bufferToString(tData.hash.buffer))
     })
     .catch(error => {
-        console.log(error)
+        alert("Invalid hash")
+        window.history.back()
     })
 }
 let global;
