@@ -13,13 +13,13 @@ function addBlock_inner(id,height,timestamp_date,transactions) {
         blockString = blockString
         .replaceAll(
             "{transaction_placeholder}",
-            `<p>Transactions: ${transactions.length} <a href="./transaction?transaction=${bufferToString(transactions[0].hash.buffer)}">(Click to view)<a></p>`
+            `<p>Transactions: ${transactions.length} <a href="./transaction?transaction=${bufferToString(transactions[0].hash.buffer)}">(Click to view)</a></p>`
         )
     } else {
         blockString = blockString
         .replaceAll(
             "{transaction_placeholder}",
-            `<p>Transactions: ${transactions.length}<a></p>`
+            `<p>Transactions: ${transactions.length}</p>`
         )
     }
     blocks.innerHTML += blockString
