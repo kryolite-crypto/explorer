@@ -18,7 +18,7 @@ async function renderWallet() {
     .then(walletData => {
         try {
             walletData = JSON.parse(walletData)
-            wallet_address.innerHTML += bufferToWallet(walletData.address.buffer)
+            wallet_address.innerHTML += walletData.address
             wallet_balance.innerHTML += walletData.balance
             wallet_pending.innerHTML += walletData.pending
             wallet.innerHTML += `<a href="./transactions?wallet=${wallet_id}">View transaction history</a>`

@@ -1,5 +1,4 @@
 function addBlock_inner(id,height,timestamp_date,transactions) {
-    console.log(transactions[0].hash)
     let blockString = `
         <div class = "block">
             <p>Height: {height}</p>

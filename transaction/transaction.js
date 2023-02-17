@@ -17,14 +17,15 @@ async function renderTransaction() {
     await fetchContent(`/tx/${transaction_hash}`)
     .then(transactionString => {
         tData = JSON.parse(transactionString)
+        console.log(tData)
         transaction.innerHTML = transaction.innerHTML
         .replaceAll("{id}",tData.id)
-        .replaceAll("{from}",`${tData.from}`)
-        .replaceAll("{to}",bufferToWallet(tData.to.buffer))
+        .replaceAll("{from}",tData.from)
+        .replaceAll("{to}",tData.to)
         .replaceAll("{transactiontype}",tData.transactionType)
         .replaceAll("{value}",tData.value)
         .replaceAll("{maxfee}",tData.maxFee)
-        .replaceAll("{hash}",bufferToString(tData.hash.buffer))
+        .replaceAll("{hash}",tData.hash)
     })
     .catch(error => {
         alert("Invalid hash")
