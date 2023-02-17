@@ -1,4 +1,5 @@
 function addBlock_inner(id,height,timestamp_date,transactions) {
+    console.log(transactions[0].hash)
     let blockString = `
         <div class = "block">
             <p>Height: {height}</p>
@@ -13,7 +14,7 @@ function addBlock_inner(id,height,timestamp_date,transactions) {
         blockString = blockString
         .replaceAll(
             "{transaction_placeholder}",
-            `<p>Transactions: ${transactions.length} <a href="./transaction?transaction=${bufferToString(transactions[0].hash.buffer)}">(Click to view)</a></p>`
+            `<p>Transactions: ${transactions.length} <a href="./transaction?transaction=${transactions[0].hash}">(Click to view)</a></p>`
         )
     } else {
         blockString = blockString
