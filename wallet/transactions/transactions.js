@@ -32,7 +32,7 @@ async function renderWalletTransactions() {
                 transaction.value,
                 transaction.nonce,
                 transaction.from,
-                transaction.to.buffer,
+                transaction.to,
                 transaction.hash
             )
         }
