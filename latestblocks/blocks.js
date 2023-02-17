@@ -43,55 +43,11 @@ async function getBlock(height) {
     })
 }
 
-async function BSearchBlock(start,end) {
-    return new Promise(async (resolve, reject) => {
-        let attempt = Math.floor((start + end)/2)
-        let success = false
-        console.log("Narrowed the latest block down to a range of",end-start)
-        try {
-            await getBlock(attempt)
-            success = true
-        } catch {}
-        if (success) {
-            if (end - attempt != 1) {
-                await resolve(BSearchBlock(attempt,end))
-            }
-            resolve(attempt)
-        } else {
-            await resolve(BSearchBlock(start,attempt))
-        }
-    })
-}
-async function figureOutLatestBlock() {
-    try {
-        let latestBlockRaw = await fetchContent("/block/latest");
-        let latestBlock = JSON.parse(latestBlockRaw);
-        return latestBlock.height;
-    } catch {
-        console.error("API does not yet support /block/latest, using old version")
-        let block = 0
-        let attempt = 1
-        let finished = false
-        while (!finished) {
-            try {
-                await getBlock(attempt)
-                block = attempt
-                attempt *= 2;
-                console.log("Highest verified block:",block)
-            } catch {
-                finished = true
-            }
-        }
-        const latestBlock = await BSearchBlock(block,attempt)
-        console.log("Latest block is",latestBlock)
-        return latestBlock
-    }
-}
 
 async function initialRenderBlocks() {
-    let latestBlock = await figureOutLatestBlock(); // Thanks Kryolite API For being easy to work with :>
-    blocks.innerHTML = "";
-    renderBlocks(latestBlock,latestBlock-20)
+    let latestBlockRaw = await fetchContent("/block/latest");
+    let latestBlock = JSON.parse(latestBlockRaw);''
+    renderBlocks(latestBlock.height,latestBlock.height-20)
 }
 async function renderBlocks(max,min) {
     RENDERING = true
