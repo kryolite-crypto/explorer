@@ -1,25 +1,25 @@
-::-webkit-scrollbar { 
-    display: none;
+::-webkit-scrollbar {
+  display: none;
 }
 
 #blocks {
-    margin: auto;
-    margin-top: 1em;
-    max-width: 100%;
-    max-height: 100%;
-    overflow: auto;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-content: flex-start
+  margin: auto;
+  margin-top: 1em;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
 }
-#blocks .block{
-    height: auto;
-    width: 100%;
-    margin-bottom: 1em;
-    background-color: #212121;
-    border: solid 1px white;
-    display: flex;
-    flex-direction: row;
-    align-content: space-between;
+#blocks .block {
+  height: auto;
+  width: 100%;
+  margin-bottom: 1em;
+  background-color: #212121;
+  border: solid 1px white;
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
 }

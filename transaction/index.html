@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <script src = "../main.js"></script>
-        <script defer src = "transaction.js"></script>
-        <link rel="stylesheet" href="../global_style.css">
-        <link rel="stylesheet" href="transaction_style.css">
-    </head>
-    <body>
-        <div id = "transaction">
-            <p id = "to">To: <a href = "../wallet?wallet={to}">{to}</a></p>
-            <p id = "from">From: <a href = "../wallet?wallet={from}">{from}</a></p>
-            <p id = "transactiontype">Type: {transactiontype}</p>
-            <p id = "value">Value: {value}</p>
-            <p id = "maxfee">MaxFee: {maxfee}</p>
-            <p id = "hash">Hash: {hash}</p>
-        </div>
-    </body>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="../main.js"></script>
+    <script defer src="transaction.js"></script>
+    <link rel="stylesheet" href="../global_style.css" />
+    <link rel="stylesheet" href="transaction_style.css" />
+  </head>
+  <body>
+    <div id="transaction">
+      <p id="to">To: <a href="../wallet?wallet={to}">{to}</a></p>
+      <p id="from">From: <a href="../wallet?wallet={from}">{from}</a></p>
+      <p id="transactiontype">Type: {transactiontype}</p>
+      <p id="value">Value: {value}</p>
+      <p id="maxfee">MaxFee: {maxfee}</p>
+      <p id="hash">Hash: {hash}</p>
+    </div>
+  </body>
 </html>
