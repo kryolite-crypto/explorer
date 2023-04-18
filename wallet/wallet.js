@@ -14,6 +14,10 @@ async function getWallet() {
 
 async function renderWallet() {
   let wallet_id = await getWallet();
+  if (wallet_id == null || wallet_id.length < 1) {
+    alert("Invalid address");
+    window.history.back();
+  }
   await fetchContent(`/ledger/${wallet_id}`)
     .then((walletData) => {
       try {
@@ -23,8 +27,7 @@ async function renderWallet() {
         wallet_pending.innerHTML += walletData.pending;
         wallet.innerHTML += `<a href="./transactions?wallet=${wallet_id}">View transaction history</a>`;
       } catch {
-        alert("Invalid address");
-        window.history.back();
+        console.error(error);
       }
     })
     .catch((error) => {
