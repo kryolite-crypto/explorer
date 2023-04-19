@@ -20,13 +20,17 @@ async function renderWallet() {
   }
   await fetchContent(`/ledger/${wallet_id}`)
     .then((walletData) => {
+      if (walletData == "") {
+        alert("No wallet data found");
+        window.history.back();
+      }
       try {
         walletData = JSON.parse(walletData);
         wallet_address.innerHTML += walletData.address;
         wallet_balance.innerHTML += walletData.balance;
         wallet_pending.innerHTML += walletData.pending;
         wallet.innerHTML += `<a href="./transactions?wallet=${wallet_id}">View transaction history</a>`;
-      } catch {
+      } catch (error) {
         console.error(error);
       }
     })
