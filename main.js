@@ -85,16 +85,18 @@ async function fetchContent(path, attempt) {
           resolve(text);
         });
     } catch {
-      urls[url] = Number.MAX_SAFE_INTEGER;
-      console.error(`Failed to fetch from ${url}`);
       if (attempt === undefined) attempt = 1;
-
+      GLOBAL_ATTEMPS++;
+      urls[url] = 10e8 + GLOBAL_ATTEMPS; // This should now loop through all of them
+      console.error(`Failed to fetch from ${url} (A: ${attempt})`);
       if (attempt < Object.keys(urls).length) {
         try {
           resolve(await fetchContent(path, attempt + 1));
         } catch (error) {
           reject(error);
         }
+      } else {
+        reject("None of the urls have responded");
       }
     }
   });
@@ -122,9 +124,10 @@ function getUrl() {
   return best.url;
 }
 
+let GLOBAL_ATTEMPS = 0;
 let urls = {
-  "https://testnet-1.kryolite.io": 0,
-  "https://testnet-2.kryolite.io": 0,
-  "https://testnet-3.kryolite.io": 0,
-  "https://testnet-4.kryolite.io": 0,
+  "https://testnet-1.kryolite.io": -1,
+  "https://testnet-2.kryolite.io": -1,
+  "https://testnet-3.kryolite.io": -1,
+  "https://testnet-4.kryolite.io": -1,
 };
