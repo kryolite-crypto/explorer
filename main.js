@@ -72,20 +72,30 @@ async function delay(ms) {
   });
 }
 
-async function fetchContent(path) {
+async function fetchContent(path, attempt) {
   return new Promise(async (resolve, reject) => {
-    for (let i = 0; i < urls.length; i++) {
-      const url = urls[i] + path;
-      try {
-        await fetch(url)
-          .then((response) => response.text())
-          .then((text) => resolve(text));
-      } catch {
-        console.error(`Failed to fetch from ${url}`);
-        if (i === urls.length - 1) reject("None of the URL's gave a response");
-        continue;
+    const url = getUrl();
+    const fullUrl = url + path;
+    try {
+      let timingStart = Date.now();
+      await fetch(fullUrl)
+        .then((response) => response.text())
+        .then((text) => {
+          urls[url] = Date.now() - timingStart;
+          resolve(text);
+        });
+    } catch {
+      urls[url] = Number.MAX_SAFE_INTEGER;
+      console.error(`Failed to fetch from ${url}`);
+      if (attempt === undefined) attempt = 1;
+
+      if (attempt < Object.keys(urls).length) {
+        try {
+          resolve(await fetchContent(path, attempt + 1));
+        } catch (error) {
+          reject(error);
+        }
       }
-      break;
     }
   });
 }
@@ -98,8 +108,23 @@ function UnixToDateStr(unix_timestamp) {
   return `${dateStr[0]} ${dateStr[1]}`;
 }
 
-let urls = [
-  "https://testnet-1.kryolite.io",
-  "https://testnet-2.kryolite.io",
-  "https://testnet-3.kryolite.io",
-];
+function getUrl() {
+  let best = { url: null, latency: Number.MAX_SAFE_INTEGER };
+  for (const url in urls) {
+    const latency = urls[url];
+    if (latency < best.latency) {
+      best = {
+        url: url,
+        latency: latency,
+      };
+    }
+  }
+  return best.url;
+}
+
+let urls = {
+  "https://testnet-1.kryolite.io": 0,
+  "https://testnet-2.kryolite.io": 0,
+  "https://testnet-3.kryolite.io": 0,
+  "https://testnet-4.kryolite.io": 0,
+};
