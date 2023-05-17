@@ -47,7 +47,7 @@ async function initialRenderBlocks() {
   let latestBlockRaw = await fetchContent("/block/latest");
   let latestBlock = JSON.parse(latestBlockRaw);
   ("");
-  renderBlocks(latestBlock.height, latestBlock.height - 20);
+  renderBlocks(latestBlock.height, latestBlock.height - 100);
 }
 async function renderBlocks(max, min) {
   RENDERING = true;
@@ -66,7 +66,7 @@ window.onscroll = function () {
     document.body.offsetHeight
   ) {
     if (!RENDERING) {
-      renderBlocks(BLOCK_INDEX, BLOCK_INDEX - 5);
+      renderBlocks(BLOCK_INDEX, BLOCK_INDEX - 20);
     }
   }
 };
