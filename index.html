@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="/explorer/favicon.png" />
+		<meta name="viewport" content="width=device-width" />
+		
+		<link rel="modulepreload" href="/explorer/_app/immutable/entry/start.25c268e3.js">
+		<link rel="modulepreload" href="/explorer/_app/immutable/chunks/scheduler.e108d1fd.js">
+		<link rel="modulepreload" href="/explorer/_app/immutable/chunks/singletons.eee57c50.js">
+		<link rel="modulepreload" href="/explorer/_app/immutable/entry/app.f6d73c71.js">
+		<link rel="modulepreload" href="/explorer/_app/immutable/chunks/index.c3f76b74.js">
+	</head>
+	<style>
+		body {
+			background-color: #191919FF;
+			padding-top: 10px;
+			padding-left: 25px;
+			padding-right: 25px;
+			color: white;
+			font-size: 12px;
+    	}
+
+		.column {
+        	margin-left: 5px;
+        	margin-right: 5px;
+    	}
+
+		.header {
+			line-height: 1;
+			margin: 0;
+			opacity: 0.5;
+		}
+
+		.text {
+			line-height: 1.5;
+			margin: 0;
+			display: block;
+		}
+
+		.title {
+			margin-bottom: -20px;
+			margin-top: 20px;
+			border-left: 1px solid darkgray;
+			padding-left: 5px;
+		}
+
+		a {
+			color: white;
+			text-decoration: none;
+		}
+
+		a:hover {
+			color: darkgray;
+		}
+
+		.container {
+			margin-top: 20px;
+			border-color: darkgray;
+			border-style: solid;
+			border-width: 1px;
+			padding: 10px;
+			display:flex;
+		}
+
+		.container .header {
+			margin-bottom: 5px;
+		}
+	</style>
+	<body data-sveltekit-preload-data="hover">
+		<div>
+			<script>
+				{
+					__sveltekit_15wdybj = {
+						assets: "/explorer",
+						base: "/explorer",
+						env: {}
+					};
+
+					const element = document.currentScript.parentElement;
+
+					Promise.all([
+						import("/explorer/_app/immutable/entry/start.25c268e3.js"),
+						import("/explorer/_app/immutable/entry/app.f6d73c71.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element);
+					});
+				}
+			</script>
+		</div>
+	</body>
+</html>
