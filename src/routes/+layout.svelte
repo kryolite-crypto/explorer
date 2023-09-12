@@ -61,13 +61,13 @@
 
     function search() {
         if(Number.isInteger(+searchWord)) {
-            goto(`/height/${searchWord}`);
+            goto(`${base}/height/${searchWord}`);
         }
         else if (searchWord.startsWith("kryo:")) {
-            goto(`/ledger/${searchWord}`);
+            goto(`${base}/ledger/${searchWord}`);
         }
         else {
-            goto(`/tx/${searchWord}`);
+            goto(`${base}/tx/${searchWord}`);
         }
 
         searchWord = '';
