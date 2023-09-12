@@ -1,4 +1,5 @@
 <script>
+    import { base } from '$app/paths';
     import { page } from '$app/stores';
 </script>
 
@@ -7,7 +8,7 @@
     <div class="column">
         <p class="header">Address</p>
         {#each $page.data.ledger as {address}, i}
-            <a class="text" href="/ledger/{address}">{address}</a>
+            <a class="text" href="{base}/ledger/{address}">{address}</a>
         {/each}
     </div>
 

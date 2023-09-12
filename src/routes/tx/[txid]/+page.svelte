@@ -21,6 +21,7 @@
 </style>
 
 <script>
+    import { base } from '$app/paths';
     import { page } from '$app/stores';
 </script>
 
@@ -64,7 +65,7 @@
                 {#if $page.data.transaction.height == null}
                     <p class="text"><br/></p>
                 {:else}
-                    <a class="text" href="/height/{$page.data.transaction.height}">{$page.data.transaction.height}</a>
+                    <a class="text" href="{base}/height/{$page.data.transaction.height}">{$page.data.transaction.height}</a>
                 {/if}
                 <p class="header">
                     Timestamp / Nonce
@@ -85,7 +86,7 @@
                     {#if $page.data.transaction.from == null || $page.data.transaction.from == "kryo:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
                         <p class="text"><br/></p>
                     {:else}
-                        <a class="text" href="/ledger/{$page.data.transaction.from}">{$page.data.transaction.from}</a>
+                        <a class="text" href="{base}/ledger/{$page.data.transaction.from}">{$page.data.transaction.from}</a>
                     {/if}
                 </p>
                 <p class="header">
@@ -95,7 +96,7 @@
                     {#if $page.data.transaction.to == null || $page.data.transaction.to == "kryo:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
                         <p class="text"><br/></p>
                     {:else}
-                        <a class="text" href="/ledger/{$page.data.transaction.to}">{$page.data.transaction.to}</a>
+                        <a class="text" href="{base}/ledger/{$page.data.transaction.to}">{$page.data.transaction.to}</a>
                     {/if}
                 </p>
                 <p class="header">
@@ -153,7 +154,7 @@
                 </p>
                 <p class="text">
                     {#each $page.data.transaction.parents as parent, i}
-                        <a class="text" href="/tx/{parent}">{parent}</a>
+                        <a class="text" href="{base}/tx/{parent}">{parent}</a>
                     {/each}
                 </p>
                 <p class="header">
@@ -175,14 +176,14 @@
                     {#if to == null || to == "kryo:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
                         <p class="text"><br/></p>
                     {:else}
-                    <a class="text" href="/ledger/{to}">{to}</a>
+                    <a class="text" href="{base}/ledger/{to}">{to}</a>
                     {/if}
                 {/each}
             </div>
             <div class="column">
                 <p class="header">TokenId</p>
                 {#each $page.data.transaction.effects as {tokenId}, i}
-                <a class="text" href="/tx/{tokenId}">{tokenId.substring(0, 12)}</a>
+                <a class="text" href="{base}/tx/{tokenId}">{tokenId.substring(0, 12)}</a>
                 {/each}
             </div>
             <div class="column">

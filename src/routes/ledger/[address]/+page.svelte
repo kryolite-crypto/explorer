@@ -21,6 +21,7 @@
 </style>
 
 <script>
+    import { base } from '$app/paths';
     import { page } from '$app/stores';
 </script>
 
@@ -47,7 +48,7 @@
     <div class="column">
         <p class="header">TransactionId</p>
         {#each $page.data.transactions as {transactionId}, i}
-        <a class="text" href="/tx/{transactionId}">{transactionId.substring(0, 12)}</a>
+        <a class="text" href="{base}/tx/{transactionId}">{transactionId.substring(0, 12)}</a>
         {/each}
     </div>
 
@@ -82,7 +83,7 @@
             {#if height == null}
                 <p class="text"><br/></p>
             {:else}
-                <a class="text" href="/height/{height}">{height}</a>
+                <a class="text" href="{base}/height/{height}">{height}</a>
             {/if}
         {/each}
     </div>
@@ -93,7 +94,7 @@
             {#if from == null || from == "kryo:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
                 <p class="text"><br/></p>
             {:else}
-                <a class="text" href="/ledger/{from}">{from}</a>
+                <a class="text" href="{base}/ledger/{from}">{from}</a>
             {/if}
         {/each}
     </div>
@@ -104,7 +105,7 @@
             {#if to == null || to == "kryo:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
                 <p class="text"><br/></p>
             {:else}
-            <a class="text" href="/ledger/{to}">{to}</a>
+            <a class="text" href="{base}/ledger/{to}">{to}</a>
             {/if}
         {/each}
     </div>

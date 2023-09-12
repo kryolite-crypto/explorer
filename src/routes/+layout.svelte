@@ -54,6 +54,7 @@
 
 <script>
     import { goto } from '$app/navigation';
+    import { base } from '$app/paths';
     import { page } from '$app/stores';
     
     let searchWord = '';
@@ -78,8 +79,8 @@
         <input class="search" type="search" placeholder="Search (address, txid, height)" bind:value={searchWord} on:submit={() => search()}>
     </form>
     <div class="links">
-        <a href="/" class:active={$page.url.pathname == "/"}>Overview</a>
-        <a href="/richlist" class:active={$page.url.pathname == "/richlist"}>Richlist</a>
+        <a href="{base}/" class:active={$page.url.pathname == "/"}>Overview</a>
+        <a href="{base}/richlist" class:active={$page.url.pathname == "/richlist"}>Richlist</a>
         <p style="margin-right: 15px">|</p>
         <a href="https://kryolite.io">Website</a>
         <a href="https://github.com/kryolite-crypto/kryolite">Github</a>
