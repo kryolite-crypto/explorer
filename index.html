@@ -5,10 +5,10 @@
 		<link rel="icon" href="/explorer/favicon.png" />
 		<meta name="viewport" content="width=device-width" />
 		
-		<link rel="modulepreload" href="/explorer/_app/immutable/entry/start.744b58b0.js">
+		<link rel="modulepreload" href="/explorer/_app/immutable/entry/start.a47ee8cb.js">
 		<link rel="modulepreload" href="/explorer/_app/immutable/chunks/scheduler.e108d1fd.js">
-		<link rel="modulepreload" href="/explorer/_app/immutable/chunks/singletons.f0f7f284.js">
-		<link rel="modulepreload" href="/explorer/_app/immutable/entry/app.49c0d092.js">
+		<link rel="modulepreload" href="/explorer/_app/immutable/chunks/singletons.7ee3a06d.js">
+		<link rel="modulepreload" href="/explorer/_app/immutable/entry/app.fe73108d.js">
 		<link rel="modulepreload" href="/explorer/_app/immutable/chunks/index.c3f76b74.js">
 	</head>
 	<style>
@@ -67,11 +67,20 @@
 			margin-bottom: 5px;
 		}
 	</style>
+	<script>
+		(function(){
+		var redirect = sessionStorage.redirect;
+		delete sessionStorage.redirect;
+		if (redirect && redirect != location.href) {
+			history.replaceState(null, null, redirect);
+		}
+		})();
+	</script>
 	<body data-sveltekit-preload-data="hover">
 		<div>
 			<script>
 				{
-					__sveltekit_fltgtz = {
+					__sveltekit_h4lqal = {
 						assets: "/explorer",
 						base: "/explorer",
 						env: {}
@@ -80,8 +89,8 @@
 					const element = document.currentScript.parentElement;
 
 					Promise.all([
-						import("/explorer/_app/immutable/entry/start.744b58b0.js"),
-						import("/explorer/_app/immutable/entry/app.49c0d092.js")
+						import("/explorer/_app/immutable/entry/start.a47ee8cb.js"),
+						import("/explorer/_app/immutable/entry/app.fe73108d.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element);
 					});
