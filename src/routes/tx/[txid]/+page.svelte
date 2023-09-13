@@ -183,7 +183,7 @@
             <div class="column">
                 <p class="header">TokenId</p>
                 {#each $page.data.transaction.effects as {tokenId}, i}
-                <a class="text" href="{base}/tx/{tokenId}">{tokenId.substring(0, 12)}</a>
+                <a class="text" href="{base}/tx/{tokenId}">{tokenId?.substring(0, 12) ?? ''}</a>
                 {/each}
             </div>
             <div class="column">
