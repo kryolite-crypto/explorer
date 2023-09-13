@@ -124,8 +124,8 @@
     <div class="column">
         <p class="header">Weight</p>
         <p class="text">
-            {#if ($page.data.chainstate.weight / 1_000_000) > 1_000_000_000_000}
-                {($page.data.chainstate.weight / 1_000_000 / 1_000_000_000_000).toFixed(2) + 'T'}
+            {#if ($page.data.chainstate.weight / 1_000_000_000) > 1}
+                {($page.data.chainstate.weight / 1_000_000_000).toFixed(2) + 'G'}
             {/if}
         </p>
     </div>
