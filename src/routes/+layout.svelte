@@ -79,8 +79,9 @@
         <input class="search" type="search" placeholder="Search (address, txid, height)" bind:value={searchWord} on:submit={() => search()}>
     </form>
     <div class="links">
-        <a href="{base}/" class:active={$page.url.pathname == "/"}>Overview</a>
-        <a href="{base}/richlist" class:active={$page.url.pathname == "/richlist"}>Richlist</a>
+        <a href="{base}/" class:active={$page.url.pathname == base + "/"}>Overview</a>
+        <a href="{base}/richlist" class:active={$page.url.pathname == base + "/richlist"}>Richlist</a>
+        <a href="{base}/validators" class:active={$page.url.pathname == base + "/validators"}>Validators</a>
         <p style="margin-right: 15px">|</p>
         <a href="https://kryolite.io">Website</a>
         <a href="https://github.com/kryolite-crypto/kryolite">Github</a>

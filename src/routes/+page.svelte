@@ -122,6 +122,11 @@
     </div>
 
     <div class="column">
+        <p class="header">Blocks</p>
+        <a class="text" href="{base}/height/{$page.data.chainstate.blocks}">{$page.data.chainstate.blocks}</a>
+    </div>
+
+    <div class="column">
         <p class="header">Weight</p>
         <p class="text">
             {#if ($page.data.chainstate.weight / 1_000_000_000) > 1}

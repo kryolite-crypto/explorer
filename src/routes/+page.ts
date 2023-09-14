@@ -8,7 +8,7 @@ export async function load({fetch, params}) {
     
     const chainstate = await chainstateRes.json();
     const transactions = await res.json() as Transaction[];
-    const graph = await graphRes.text();
+    const graph = (await graphRes.text());
 
     return { chainstate, transactions, graph };
 }
