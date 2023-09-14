@@ -54,6 +54,7 @@
     .logo {
         margin: 0;
         margin-right: 20px;
+        margin-top: -1px;
         opacity: 0.7;
     }
 </style>
