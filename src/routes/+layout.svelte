@@ -50,6 +50,12 @@
         width: 100%;
         margin-right: 20px;
     }
+
+    .logo {
+        margin: 0;
+        margin-right: 20px;
+        opacity: 0.7;
+    }
 </style>
 
 <script>
@@ -75,6 +81,11 @@
 </script>
 
 <div class="topbar">
+    <div><a href="{base}/">
+<pre class="logo">█▄▀ █▀▄ ▀▄▀ ▄▀▄ █   █ ▀█▀ ██▀
+█ █ █▀▄  █  ▀▄▀ █▄▄ █  █  █▄▄</pre>
+</a>
+    </div>
     <form class="form" on:submit|preventDefault={search}>
         <input class="search" type="search" placeholder="Search (address, txid, height)" bind:value={searchWord} on:submit={() => search()}>
     </form>
