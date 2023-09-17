@@ -90,7 +90,7 @@
             }
         }
 
-        const evtSource = new EventSource('http://localhost:5000/events/newtx');
+        const evtSource = new EventSource('https://testnet-1.kryolite.io/events/newtx');
         
         let timeout = 0;
         let debounceCount = 0;
