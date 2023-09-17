@@ -44,74 +44,88 @@
 </style>
 
 <script>
-    import { onMount } from 'svelte';
+    import { afterUpdate, onMount } from 'svelte';
     import { page } from '$app/stores';
-    import { instance } from "@viz-js/viz";
     import { base } from '$app/paths';
+    import * as d3 from 'd3-graphviz';
+    import * as d3t from 'd3-transition';
+    import * as d3e from 'd3-ease';
+    import * as d3s from 'd3-selection';
+    import * as d3z from 'd3-zoom';
+    import { invalidate } from '$app/navigation';
 
-    onMount(async () => {
-        let viz = await instance();
-        let graph = document.getElementById("graph");
+    /**
+     * @type {d3.Graphviz<import("d3-selection").BaseType, any, import("d3-selection").BaseType, any>}
+     */
+    let graphControl;
+    let init = false;
 
-        if (graph == null) {
-            return;
+    onMount(() => {
+        graphControl = d3.graphviz("#graph")
+            .options(
+                {
+                    height: 250
+                }
+            )
+            // @ts-ignore
+            /*.transition(() => {
+                if (!init)
+                {
+                    init = true;
+                    return d3t.transition("main").duration(0);
+                }
+
+                return d3t.transition("main").ease(d3e.easeLinear).duration(1000)
+            })*/
+            .fade(true)
+            .growEnteringEdges(true)
+            .keyMode('tag-index');
+
+        function doInvalidate(data = '') {
+            if (data == 'RESYNC') {
+                invalidate('app:height');
+            }
+            else {
+                invalidate('app:graph');
+            }
         }
 
-        graph.appendChild(viz.renderSVGElement($page.data.graph));
+        const evtSource = new EventSource('http://localhost:5000/events/newtx');
+        
+        let timeout = 0;
+        let debounceCount = 0;
 
-        setTimeout(() => {
-            var ellipses = graph?.getElementsByTagName("ellipse") ?? [];
+        evtSource.onmessage = (event) => {
+            clearTimeout(timeout);
+            debounceCount++;
 
-            if (ellipses.length > 0) {
-                ellipses[0].scrollIntoView({behavior: "instant", block: "center", inline: "center"});
-            }
-        });
-
-        let mouseDown = false;
-        let startX = 0, startY = 0, scrollLeft = 0, scrollTop = 0;
-
-        // @ts-ignore
-        let startDragging = function (e) {
-            if (graph == null) {
-                return;
+            if (debounceCount >= 25) {
+                doInvalidate(event.data);
+                debounceCount = 0;
             }
 
-            mouseDown = true;
-            startX = e.pageX - graph.offsetLeft;
-            startY = e.pageY - graph.offsetTop;
-            scrollLeft = graph.scrollLeft;
-            scrollTop = graph.scrollTop;
-        };
+            timeout = setTimeout(() => doInvalidate(event.data), 250);
+        }
 
-        // @ts-ignore
-        let stopDragging = function (event) {
-            mouseDown = false;
-        };
-
-        graph.addEventListener('mousemove', (e) => {
-            e.preventDefault();
-            if(!mouseDown) { return; }
-
-            if (graph == null) {
-                return;
-            }
-
-            const x = e.pageX - graph.offsetLeft;
-            const scrollX = x - startX;
-            graph.scrollLeft = scrollLeft - scrollX;
-
-            const y = e.pageY - graph.offsetTop;
-            const scrollY = y - startY;
-            graph.scrollTop = scrollTop - scrollY;
-        });
-
-        // Add the event listeners
-        graph.addEventListener('mousedown', startDragging, false);
-        graph.addEventListener('mouseup', stopDragging, false);
-        graph.addEventListener('mouseleave', stopDragging, false);
+        return () => {
+            clearTimeout(timeout);
+            evtSource.onmessage = null;
+            evtSource.close();
+        }
     });
 
-
+    afterUpdate(() => {
+        graphControl.renderDot($page.data.graph, () => {
+            const svg = d3s.select("svg");
+            const g = svg.select("g");
+            const [x, y, width, height] = svg.attr("viewBox").split(" ");
+            const zoom = d3z.zoom();
+            // @ts-ignore
+            svg.call(zoom.on("zoom", ({ transform }) => g.attr("transform", transform)));
+            // @ts-ignore
+            svg.transition().duration(1000).call(zoom.translateTo, width, -height);
+        });
+    });
 </script>
 
 <p class="title">Chain Stats</p>
@@ -123,7 +137,7 @@
 
     <div class="column">
         <p class="header">Blocks</p>
-        <a class="text" href="{base}/height/{$page.data.chainstate.blocks}">{$page.data.chainstate.blocks}</a>
+        <p class="text">{$page.data.chainstate.blocks}</p>
     </div>
 
     <div class="column">

@@ -57,9 +57,75 @@
         margin-top: -1px;
         opacity: 0.7;
     }
+
+    .notbutton {
+        background: none;
+        color: white;
+        margin: 0;
+        border: none;
+        padding: 0;
+        font: inherit;
+        margin-right: 15px;
+    }
+
+    .notbutton:hover {
+        cursor: pointer;
+        color: darkgray;
+    }
+
+    .menu {
+        position: absolute;
+        background-color: #191919FF !important;
+        border: 1px solid darkgray;
+        background: inherit;
+        padding: 0;
+        z-index: 10;
+    }
+
+    /** todo: should be dynamic!*/
+    .dappsmenu {
+        margin-left: -55px;
+    }
+
+    /** todo: should be dynamic!*/
+    .linksmenu {
+        margin-left: -12px;
+    }
+
+    .menu li {
+        display: block;
+        background-color: #191919FF !important;
+    }
+
+    .menu li:hover {
+        cursor: pointer;
+        background-color: darkgray !important;
+    }
+
+    .menu a {
+        display: block;
+        padding-left: 0;
+        display: flex;
+        align-items: center;
+        margin-left: 0 !important;
+        padding: 5px;
+    }
+
+    .menu a:hover {
+        color: white;
+    }
+
+    .mdi {
+        font-size: 18px;
+        color: white;
+        margin-right: 5px;
+        margin-top: -2px;
+    }
 </style>
 
 <script>
+// @ts-nocheck
+
     import { goto } from '$app/navigation';
     import { base } from '$app/paths';
     import { page } from '$app/stores';
@@ -79,6 +145,29 @@
 
         searchWord = '';
     }
+
+    let isDappsDropdownOpen = false
+    let isLinksDropdownOpen = false
+
+    const handleDappsDropdownClick = () => {
+        isDappsDropdownOpen = !isDappsDropdownOpen // togle state on click
+    }
+
+    const handleLinksDropdownClick = () => {
+        isLinksDropdownOpen = !isLinksDropdownOpen // togle state on click
+    }
+
+    const handleDappsDropdownFocusLoss = ({ relatedTarget, currentTarget }) => {
+        // use "focusout" event to ensure that we can close the dropdown when clicking outside or when we leave the dropdown with the "Tab" button
+        if (relatedTarget instanceof HTMLElement && currentTarget.contains(relatedTarget)) return // check if the new focus target doesn't present in the dropdown tree (exclude ul\li padding area because relatedTarget, in this case, will be null) 
+        isDappsDropdownOpen = false
+    }
+
+    const handleLinksDropdownFocusLoss = ({ relatedTarget, currentTarget }) => {
+        // use "focusout" event to ensure that we can close the dropdown when clicking outside or when we leave the dropdown with the "Tab" button
+        if (relatedTarget instanceof HTMLElement && currentTarget.contains(relatedTarget)) return // check if the new focus target doesn't present in the dropdown tree (exclude ul\li padding area because relatedTarget, in this case, will be null) 
+        isLinksDropdownOpen = false
+    }
 </script>
 
 <div class="topbar">
@@ -92,12 +181,24 @@
     </form>
     <div class="links">
         <a href="{base}/" class:active={$page.url.pathname == base + "/"}>Overview</a>
+        <a href="{base}/nodes" class:active={$page.url.pathname == base + "/nodes"}>Nodes</a>
         <a href="{base}/richlist" class:active={$page.url.pathname == base + "/richlist"}>Richlist</a>
         <a href="{base}/validators" class:active={$page.url.pathname == base + "/validators"}>Validators</a>
-        <p style="margin-right: 15px">|</p>
-        <a href="https://kryolite.io">Website</a>
-        <a href="https://github.com/kryolite-crypto/kryolite">Github</a>
-        <a href="https://discord.gg/wfPRKJtrUP">Discord</a>
+        <div class="dropdown" on:focusout={handleDappsDropdownFocusLoss}>
+            <button class="notbutton" on:click={handleDappsDropdownClick}>DApps</button>
+            <ul class="menu dappsmenu" style:visibility={isDappsDropdownOpen ? 'visible' : 'hidden'}>
+                <li><a href="http://kryolite.io"><span class="mdi mdi-faucet"></span>Faucet</a></li>
+                <li><a href="http://kryolite.io"><span class="mdi mdi-slot-machine"></span>Saturday Night Lotto</a></li>
+            </ul>
+        </div>
+        <div class="dropdown" on:focusout={handleLinksDropdownFocusLoss}>
+            <button class="notbutton" on:click={handleLinksDropdownClick}>Links</button>
+            <ul class="menu linksmenu" style:visibility={isLinksDropdownOpen ? 'visible' : 'hidden'}>
+                <li><a href="https://discord.gg/wfPRKJtrUP">Discord</a></li>
+                <li><a href="https://github.com/kryolite-crypto/kryolite">Github</a></li>
+                <li><a href="http://kryolite.io">Website</a></li>
+            </ul>
+        </div>
     </div>
 </div>
 
