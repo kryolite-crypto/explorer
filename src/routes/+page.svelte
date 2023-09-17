@@ -58,7 +58,6 @@
      * @type {d3.Graphviz<import("d3-selection").BaseType, any, import("d3-selection").BaseType, any>}
      */
     let graphControl;
-    let init = false;
 
     onMount(() => {
         graphControl = d3.graphviz("#graph")
@@ -67,16 +66,6 @@
                     height: 250
                 }
             )
-            // @ts-ignore
-            /*.transition(() => {
-                if (!init)
-                {
-                    init = true;
-                    return d3t.transition("main").duration(0);
-                }
-
-                return d3t.transition("main").ease(d3e.easeLinear).duration(1000)
-            })*/
             .fade(true)
             .growEnteringEdges(true)
             .keyMode('tag-index');
@@ -116,6 +105,23 @@
 
     afterUpdate(() => {
         graphControl.renderDot($page.data.graph, () => {
+            var ellipses = d3s.selectAll("ellipse").nodes();
+
+            let cx = 0;
+            let cy = 0;
+
+            for (let i = 0; i < ellipses.length; i++)
+            {
+                // @ts-ignore
+                if (ellipses[i].cx.baseVal.value > cx)
+                {
+                    // @ts-ignore
+                    cx = ellipses[i].cx.baseVal.value;
+                    // @ts-ignore
+                    cy = ellipses[i].cy.baseVal.value;
+                }
+            }
+
             const svg = d3s.select("svg");
             const g = svg.select("g");
             const [x, y, width, height] = svg.attr("viewBox").split(" ");
@@ -123,7 +129,7 @@
             // @ts-ignore
             svg.call(zoom.on("zoom", ({ transform }) => g.attr("transform", transform)));
             // @ts-ignore
-            svg.transition().duration(1000).call(zoom.translateTo, width, -height);
+            svg.transition().duration(1000).call(zoom.translateTo, cx, cy);
         });
     });
 </script>
