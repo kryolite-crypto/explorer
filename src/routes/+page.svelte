@@ -58,17 +58,22 @@
      * @type {d3.Graphviz<import("d3-selection").BaseType, any, import("d3-selection").BaseType, any>}
      */
     let graphControl;
+    let dotIndex = 0;
+    let elementIndex = 0;
 
     onMount(() => {
         graphControl = d3.graphviz("#graph")
-            .options(
-                {
-                    height: 250
-                }
-            )
+            .options({
+                height: 250
+            })
+            .keyMode('title')
             .fade(true)
-            .growEnteringEdges(true)
-            .keyMode('tag-index');
+            .tweenShapes(false)
+            // @ts-ignore
+            .transition(() => {
+                return d3t.transition("main")
+                    .duration(dotIndex == 0 ? 0 : 2000)
+            });
 
         function doInvalidate(data = '') {
             if (data == 'RESYNC') {
@@ -93,7 +98,7 @@
                 debounceCount = 0;
             }
 
-            timeout = setTimeout(() => doInvalidate(event.data), 250);
+            timeout = setTimeout(() => doInvalidate(event.data), 500);
         }
 
         return () => {
@@ -105,6 +110,7 @@
 
     afterUpdate(() => {
         graphControl.renderDot($page.data.graph, () => {
+            dotIndex++;
             var ellipses = d3s.selectAll("ellipse").nodes();
 
             let cx = 0;
@@ -122,12 +128,18 @@
                 }
             }
 
+            const graphArea = document.getElementById("graph");
             const svg = d3s.select("svg");
             const g = svg.select("g");
             const [x, y, width, height] = svg.attr("viewBox").split(" ");
             const zoom = d3z.zoom();
+
             // @ts-ignore
-            svg.call(zoom.on("zoom", ({ transform }) => g.attr("transform", transform)));
+            svg.call(zoom
+                // @ts-ignore
+                .extent([[0, 0], [graphArea?.clientWidth / 1.2, graphArea?.clientHeight / 1.2]])
+                .scaleExtent([0.1, 8])
+                .on("zoom", ({ transform }) => g.attr("transform", transform)));
             // @ts-ignore
             svg.transition().duration(1000).call(zoom.translateTo, cx, cy);
         });
