@@ -61,17 +61,15 @@
             {#if transactionType == 0}
                 Transaction
             {:else if transactionType == 1}
-                Genesis
+                Block reward
             {:else if transactionType == 2}
-                Block
+                Stake reward
             {:else if transactionType == 3}
-                View
-            {:else if transactionType == 4}
                 Contract
+            {:else if transactionType == 4}
+                Reg Validator
             {:else if transactionType == 5}
-                RegValidator
-            {:else if transactionType == 6}
-                Vote
+                Dev reward
             {:else}
                 n/a
             {/if}

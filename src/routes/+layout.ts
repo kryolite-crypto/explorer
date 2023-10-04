@@ -1,6 +1,6 @@
 /** @type {import('./$types').PageLoad} */
 export async function load({fetch, depends}) {
-    const chainstateRes = await fetch(`http://localhost:5100/chainstate`);
+    const chainstateRes = await fetch(`https://testnet-1.kryolite.io/chainstate`);
     const chainstate = await chainstateRes.json();
 
     depends('app:height');

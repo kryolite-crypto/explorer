@@ -23,6 +23,8 @@
 <script>
     import { base } from '$app/paths';
     import { page } from '$app/stores';
+
+    let null_address = 'kryo:weamtrfsr7twjpbkybbfbudkp4fzmw97zrdk4yvkbi';
 </script>
 
 
@@ -42,31 +44,21 @@
                 </p>
                 <p class="text">
                     {#if $page.data.transaction.transactionType == 0}
-                    Transaction
+                        Transaction
                     {:else if $page.data.transaction.transactionType == 1}
-                        Genesis
+                        Block reward
                     {:else if $page.data.transaction.transactionType == 2}
-                        Block
+                        Stake reward
                     {:else if $page.data.transaction.transactionType == 3}
-                        View
-                    {:else if $page.data.transaction.transactionType == 4}
                         Contract
+                    {:else if $page.data.transaction.transactionType == 4}
+                        Reg Validator
                     {:else if $page.data.transaction.transactionType == 5}
-                        RegValidator
-                    {:else if $page.data.transaction.transactionType == 6}
-                        Vote
+                        Dev reward
                     {:else}
                         n/a
                     {/if}
                 </p>
-                <p class="header">
-                    Height
-                </p>
-                {#if $page.data.transaction.height == null}
-                    <p class="text"><br/></p>
-                {:else}
-                    <a class="text" href="{base}/height/{$page.data.transaction.height}">{$page.data.transaction.height}</a>
-                {/if}
                 <p class="header">
                     Timestamp / Nonce
                 </p>
@@ -76,14 +68,16 @@
                 <p class="header">
                     Public Key
                 </p>
-                <p class="text">
-                    {$page.data.transaction.publicKey}
-                </p>
+                {#if $page.data.transaction.publicKey == null || $page.data.transaction.publicKey == null_address}
+                    <p class="text"><br/></p>
+                {:else}
+                    <p class="text">{$page.data.transaction.publicKey}</p>
+                {/if}
                 <p class="header">
                     Sender
                 </p>
                 <p class="text">
-                    {#if $page.data.transaction.from == null || $page.data.transaction.from == "kryo:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
+                    {#if $page.data.transaction.from == null || $page.data.transaction.from == null_address}
                         <p class="text"><br/></p>
                     {:else}
                         <a class="text" href="{base}/ledger/{$page.data.transaction.from}">{$page.data.transaction.from}</a>
@@ -93,7 +87,7 @@
                     Recipient
                 </p>
                 <p class="text">
-                    {#if $page.data.transaction.to == null || $page.data.transaction.to == "kryo:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
+                    {#if $page.data.transaction.to == null || $page.data.transaction.to == null_address}
                         <p class="text"><br/></p>
                     {:else}
                         <a class="text" href="{base}/ledger/{$page.data.transaction.to}">{$page.data.transaction.to}</a>
@@ -109,7 +103,11 @@
                     Signature
                 </p>
                 <p class="text">
-                    {$page.data.transaction.signature}
+                    {#if $page.data.transaction.signature == 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'}
+                        <p class="text"><br/></p>
+                    {:else}
+                        {$page.data.transaction.signature}
+                    {/if}
                 </p>
                 <p class="header">
                     Execution Result
@@ -150,30 +148,22 @@
                     {/if}
                 </p>
                 <p class="header">
-                    Parents
-                </p>
-                <p class="text">
-                    {#each $page.data.transaction.parents as parent, i}
-                        <a class="text" href="{base}/tx/{parent}">{parent}</a>
-                    {/each}
-                </p>
-                <p class="header">
                     Data
                 </p>
                 <p class="text">
-                    {$page.data.transaction.data}
+                    {$page.data.transaction.data || ''}
                 </p>
             </div>
         </div>
     </div>
 
-    <div class="effects">
+    <!--div class="effects">
         <p class="title">Transaction effects</p>
         <div class="container">
             <div class="column">
                 <p class="header">Recipient</p>
                 {#each $page.data.transaction.effects as {to}, i}
-                    {#if to == null || to == "kryo:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
+                    {#if to == null || to == null_address}
                         <p class="text"><br/></p>
                     {:else}
                     <a class="text" href="{base}/ledger/{to}">{to}</a>
@@ -199,5 +189,5 @@
                 {/each}
             </div>
         </div>
-    </div>
+    </div-->
 </div>

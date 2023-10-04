@@ -1,6 +1,6 @@
 /** @type {import('./$types').PageLoad} */
 export async function load({fetch, params}) {
-    const res = await fetch(`http://localhost:5100/nodes`);
+    const res = await fetch(`https://testnet-1.kryolite.io/nodes`);
     const nodes = await res.json();
 
     return { nodes };
