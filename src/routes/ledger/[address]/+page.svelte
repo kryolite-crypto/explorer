@@ -23,6 +23,8 @@
 <script>
     import { base } from '$app/paths';
     import { page } from '$app/stores';
+
+    let null_address = 'kryo:weamtrfsr7twjpbkybbfbudkp4fzmw97zrdk4yvkbi';
 </script>
 
 <p class="title">Ledger</p>
@@ -78,20 +80,9 @@
     </div>
 
     <div class="column">
-        <p class="header">Height</p>
-        {#each $page.data.transactions as {height}, i}
-            {#if height == null}
-                <p class="text"><br/></p>
-            {:else}
-                <a class="text" href="{base}/height/{height}">{height}</a>
-            {/if}
-        {/each}
-    </div>
-
-    <div class="column">
         <p class="header">Sender</p>
         {#each $page.data.transactions as {from}, i}
-            {#if from == null || from == "kryo:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
+            {#if from == null || from == null_address}
                 <p class="text"><br/></p>
             {:else}
                 <a class="text" href="{base}/ledger/{from}">{from}</a>
@@ -102,7 +93,7 @@
     <div class="column">
         <p class="header">Recipient</p>
         {#each $page.data.transactions as {to}, i}
-            {#if to == null || to == "kryo:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
+            {#if to == null || to == null_address}
                 <p class="text"><br/></p>
             {:else}
             <a class="text" href="{base}/ledger/{to}">{to}</a>

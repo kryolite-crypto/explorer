@@ -84,43 +84,64 @@
             }
         }
 
-        const evtSource = new EventSource('https://testnet-1.kryolite.io/events/newtx');
+        const evtSource = new EventSource('http://localhost:5100/events/newtx');
         
         let timeout = 0;
         let debounceCount = 0;
+        let hasUpdates
 
         evtSource.onmessage = (event) => {
+            if (document.hidden) {
+                hasUpdates = true;
+                return;
+            }
+
             clearTimeout(timeout);
+
             debounceCount++;
 
             if (debounceCount >= 25) {
-                doInvalidate(event.data);
                 debounceCount = 0;
+                doInvalidate(event.data);
             }
 
-            timeout = setTimeout(() => doInvalidate(event.data), 500);
+            timeout = setTimeout(() => {
+                hasUpdates = false;
+                doInvalidate(event.data)
+            }, 500);
         }
+
+        function handleVisibilityChange() {
+            if (document.hidden) {
+                clearTimeout(timeout);
+            } else {
+                doInvalidate();
+            }
+        }
+
+        document.addEventListener("visibilitychange", handleVisibilityChange);
 
         return () => {
             clearTimeout(timeout);
+
             evtSource.onmessage = null;
             evtSource.close();
+
+            document.removeEventListener("visibilitychange", handleVisibilityChange);
         }
     });
 
     afterUpdate(() => {
         graphControl.renderDot($page.data.graph, () => {
             dotIndex++;
-            var ellipses = d3s.selectAll("ellipse").nodes();
 
+            const ellipses = d3s.selectAll("ellipse").nodes();
             let cx = 0;
             let cy = 0;
 
-            for (let i = 0; i < ellipses.length; i++)
-            {
+            for (let i = 0; i < ellipses.length; i++) {
                 // @ts-ignore
-                if (ellipses[i].cx.baseVal.value > cx)
-                {
+                if (ellipses[i].cx.baseVal.value > cx) {
                     // @ts-ignore
                     cx = ellipses[i].cx.baseVal.value;
                     // @ts-ignore
@@ -131,26 +152,56 @@
             const graphArea = document.getElementById("graph");
             const svg = d3s.select("svg");
             const g = svg.select("g");
-            const [x, y, width, height] = svg.attr("viewBox").split(" ");
             const zoom = d3z.zoom();
+            // const [x, y, width, height] = svg.attr("viewBox").split(" ");
 
             // @ts-ignore
             svg.call(zoom
                 // @ts-ignore
-                .extent([[0, 0], [graphArea?.clientWidth / 1.2, graphArea?.clientHeight / 1.2]])
+                .extent([[0, 0], [graphArea?.clientWidth, 250]])
                 .scaleExtent([0.1, 8])
                 .on("zoom", ({ transform }) => g.attr("transform", transform)));
             // @ts-ignore
-            svg.transition().duration(1000).call(zoom.translateTo, cx, cy);
+            svg.transition().duration(1000).call(zoom.translateTo, cx, cy / 2);
         });
     });
+
+    let weight = $page.data.chainstate.weight;
+    let unit = 0;
+
+    while (weight > 1000)
+    {
+        weight /= 1000;
+        unit++;
+    }
+
+    let unitstr = '';
+
+    if (unit == 1)
+    {
+        unitstr = 'K';
+    }
+    else if (unit == 2)
+    {
+        unitstr = 'M'
+    }
+    else if (unit == 3)
+    {
+        unitstr = 'G'
+    }
+    else if (unit == 4)
+    {
+        unitstr = 'T'
+    }
+
+    let null_address = 'kryo:weamtrfsr7twjpbkybbfbudkp4fzmw97zrdk4yvkbi';
 </script>
 
 <p class="title">Chain Stats</p>
 <div class="stats-container">
     <div class="column">
         <p class="header">Height</p>
-        <a class="text" href="{base}/height/{$page.data.chainstate.height}">{$page.data.chainstate.height}</a>
+        <a class="text" href="{base}/height/{$page.data.chainstate.id}">{$page.data.chainstate.id}</a>
     </div>
 
     <div class="column">
@@ -161,9 +212,7 @@
     <div class="column">
         <p class="header">Weight</p>
         <p class="text">
-            {#if ($page.data.chainstate.weight / 1_000_000_000) > 1}
-                {($page.data.chainstate.weight / 1_000_000_000).toFixed(2) + 'G'}
-            {/if}
+            {weight.toFixed(2) + unitstr}
         </p>
     </div>
 
@@ -174,7 +223,7 @@
 
     <div class="column">
         <p class="header">Difficulty</p>
-        <p class="text">{Math.log2($page.data.chainstate.currentDifficulty).toFixed(2)}</p>
+        <p class="text">{$page.data.chainstate.currentDifficulty}</p>
     </div>
 
     <div class="column">
@@ -202,17 +251,15 @@
             {#if transactionType == 0}
                 Transaction
             {:else if transactionType == 1}
-                Genesis
+                Block reward
             {:else if transactionType == 2}
-                Block
+                Stake reward
             {:else if transactionType == 3}
-                View
-            {:else if transactionType == 4}
                 Contract
+            {:else if transactionType == 4}
+                Reg Validator
             {:else if transactionType == 5}
-                RegValidator
-            {:else if transactionType == 6}
-                Vote
+                Dev reward
             {:else}
                 n/a
             {/if}
@@ -221,20 +268,10 @@
     </div>
 
     <div class="column">
-        <p class="header">Height</p>
-        {#each $page.data.transactions as {height}, i}
-            {#if height == null}
-                <p class="text"><br/></p>
-            {:else}
-                <a class="text" href="{base}/height/{height}">{height}</a>
-            {/if}
-        {/each}
-    </div>
-
-    <div class="column">
         <p class="header">Sender</p>
         {#each $page.data.transactions as {from}, i}
-            {#if from == null || from == "kryo:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
+            <!-- = null address-->
+            {#if from == null || from == null_address}
                 <p class="text"><br/></p>
             {:else}
                 <a class="text" href="{base}/ledger/{from}">{from}</a>
@@ -245,7 +282,7 @@
     <div class="column">
         <p class="header">Recipient</p>
         {#each $page.data.transactions as {to}, i}
-            {#if to == null || to == "kryo:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
+            {#if to == null || to == null_address}
                 <p class="text"><br/></p>
             {:else}
             <a class="text" href="{base}/ledger/{to}">{to}</a>

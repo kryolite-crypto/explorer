@@ -4,9 +4,9 @@ import type { Transaction } from '$lib/transaction.js';
 export async function load({fetch, depends, parent}) {
     const { height } = await parent();
 
-    const chainstateRes = await fetch(`https://testnet-1.kryolite.io/chainstate`);
-    const res = await fetch(`https://testnet-1.kryolite.io/tx?pageNum=0&pageSize=20`);
-    const graphRes = await fetch(`https://testnet-1.kryolite.io/tx/graph?startHeight=${height}`);
+    const chainstateRes = await fetch(`http://localhost:5100/chainstate`);
+    const res = await fetch(`http://localhost:5100/tx?pageNum=0&pageSize=20`);
+    const graphRes = await fetch(`http://localhost:5100/tx/graph?startHeight=${height}`);
     
     const chainstate = await chainstateRes.json();
     const transactions = await res.json() as Transaction[];
