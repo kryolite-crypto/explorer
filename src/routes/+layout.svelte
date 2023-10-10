@@ -188,7 +188,7 @@
             <button class="notbutton" on:click={handleDappsDropdownClick}>DApps</button>
             <ul class="menu dappsmenu" style:visibility={isDappsDropdownOpen ? 'visible' : 'hidden'}>
                 <li><a href="http://kryolite.io"><span class="mdi mdi-faucet"></span>Faucet</a></li>
-                <li><a href="http://kryolite.io"><span class="mdi mdi-slot-machine"></span>Saturday Night Lotto</a></li>
+                <li><a href="https://kryolite-crypto.github.io/kryolottery"><span class="mdi mdi-slot-machine"></span>Saturday Night Lotto</a></li>
             </ul>
         </div>
         <div class="dropdown" on:focusout={handleLinksDropdownFocusLoss}>
