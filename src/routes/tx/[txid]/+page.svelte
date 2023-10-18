@@ -97,7 +97,7 @@
                     Value
                 </p>
                 <p class="text">
-                    {($page.data.transaction.value / 1_000_000).toFixed(2)}
+                    {($page.data.transaction.value / 1_000_000).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </p>
                 <p class="header">
                     Signature

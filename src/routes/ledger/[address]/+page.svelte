@@ -36,12 +36,12 @@
 
     <div class="column balance">
         <p class="header">Balance</p>
-        <p class="text">{($page.data.ledger.balance / 1_000_000).toFixed(2)}
+        <p class="text">{($page.data.ledger.balance / 1_000_000).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}}
     </div>
 
     <div class="column pending">
         <p class="header">Pending</p>
-        <p class="text">{($page.data.ledger.pending / 1_000_000).toFixed(2)}
+        <p class="text">{($page.data.ledger.pending / 1_000_000).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}}
     </div>
 </div>
 
@@ -102,7 +102,7 @@
     <div class="column">
         <p class="header">Value</p>
         {#each $page.data.transactions as {value}, i}
-        <p class="text">{(value / 1_000_000).toFixed(2)}</p>
+        <p class="text">{(value / 1_000_000).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
         {/each}
     </div>
 

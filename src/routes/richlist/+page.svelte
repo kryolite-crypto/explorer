@@ -15,7 +15,7 @@
     <div class="column">
         <p class="header">Value</p>
         {#each $page.data.ledger as {balance}, i}
-        <p class="text">{(balance / 1_000_000).toFixed(2)}</p>
+        <p class="text">{(balance / 1_000_000).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
         {/each}
     </div>
 </div>

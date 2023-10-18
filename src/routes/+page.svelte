@@ -194,19 +194,19 @@
         unitstr = 'T'
     }
 
-    let null_address = 'kryo:weamtrfsr7twjpbkybbfbudkp4fzmw97zrdk4yvkbi';
+    const null_address = 'kryo:weamtrfsr7twjpbkybbfbudkp4fzmw97zrdk4yvkbi';
+
+    const chainstate = $page.data.chainstate;
+    const milestones = Math.floor(chainstate.id / 5);
+    const total_supply = (milestones * 1000) + (milestones * 50) + (chainstate.blocks * 1000);
+    console.log(chainstate, milestones);
 </script>
 
 <p class="title">Chain Stats</p>
 <div class="stats-container">
     <div class="column">
         <p class="header">Height</p>
-        <a class="text" href="{base}/height/{$page.data.chainstate.id}">{$page.data.chainstate.id}</a>
-    </div>
-
-    <div class="column">
-        <p class="header">Blocks</p>
-        <p class="text">{$page.data.chainstate.blocks}</p>
+        <a class="text" href="{base}/height/{$page.data.chainstate.id}">{$page.data.chainstate.id.toLocaleString(undefined)}</a>
     </div>
 
     <div class="column">
@@ -217,8 +217,20 @@
     </div>
 
     <div class="column">
+        <p class="header">Total Supply</p>
+        <p class="text">
+            {total_supply.toLocaleString(undefined)}
+        </p>
+    </div>
+
+    <div class="column">
+        <p class="header">Blocks</p>
+        <p class="text">{$page.data.chainstate.blocks.toLocaleString(undefined)}</p>
+    </div>
+
+    <div class="column">
         <p class="header">Votes</p>
-        <p class="text">{$page.data.chainstate.votes}</p>
+        <p class="text">{$page.data.chainstate.votes.toLocaleString(undefined)}</p>
     </div>
 
     <div class="column">
@@ -228,7 +240,7 @@
 
     <div class="column">
         <p class="header">Transactions</p>
-        <p class="text">{$page.data.chainstate.transactions}</p>
+        <p class="text">{$page.data.chainstate.transactions.toLocaleString(undefined)}</p>
     </div>
 </div>
 
@@ -293,7 +305,7 @@
     <div class="column">
         <p class="header">Value</p>
         {#each $page.data.transactions as {value}, i}
-        <p class="text">{(value / 1_000_000).toFixed(2)}</p>
+        <p class="text">{(value / 1_000_000).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
         {/each}
     </div>
 

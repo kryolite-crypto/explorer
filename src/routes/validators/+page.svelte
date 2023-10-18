@@ -15,7 +15,7 @@
     <div class="column">
         <p class="header">Stake</p>
         {#each $page.data.validators as {stake}, i}
-        <p class="text">{(stake / 1_000_000).toFixed(2)}</p>
+        <p class="text">{(stake / 1_000_000).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
         {/each}
     </div>
 

@@ -43,7 +43,7 @@
             {#if height == null}
                 <p class="text"><br/></p>
             {:else}
-                <a class="text" href="{base}/height/{height}">{height}</a>
+                <a class="text" href="{base}/height/{height}">{height.toLocaleString(undefined)}}</a>
             {/if}
         {/each}
     </div>
@@ -73,7 +73,7 @@
     <div class="column">
         <p class="header">Value</p>
         {#each $page.data.transactions as {value}, i}
-        <p class="text">{(value / 1_000_000).toFixed(2)}</p>
+        <p class="text">{(value / 1_000_000).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
         {/each}
     </div>
 
